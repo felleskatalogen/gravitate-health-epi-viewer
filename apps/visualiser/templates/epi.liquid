@@ -1,0 +1,35 @@
+{% assign compositionResource = json.entry | where: "resource.resourceType", "Composition" | first %}
+{% assign composition = compositionResource.resource %}
+
+<div>
+  <h2>{{composition.title}}</h2>
+  <br/>
+  {% if composition.type.coding[0].display %}
+    <b>Composition type:</b>
+    {{ composition.type.coding[0].display }}{% endif %}
+  <br/>
+  
+
+
+  {% for sec in composition.section %}
+
+    {% if sec.section %}
+      {% for sec2 in sec.section %}
+        {% assign uniqueId = forloop.parentloop.index0 | append: '-' | append: forloop.index0 %}
+
+   <button type="button" class="btn btn-info" data-toggle="collapse" aria-expanded="false" data-target="#collapse{{ uniqueId }}" aria-controls="collapse{{ uniqueId }}">{{ sec2.title }}</button>
+
+
+  <div class="collapse" id="collapse{{ uniqueId }}">
+  <div class="card card-body cud">
+   {{ sec2.text.div }}
+  </div>
+</div>
+  
+<br/>
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+
+</div>
+
