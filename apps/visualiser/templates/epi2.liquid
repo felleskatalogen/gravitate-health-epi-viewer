@@ -1,8 +1,7 @@
 {% assign compositionResource = json.entry | where: "resource.resourceType", "Composition" | first %}
 {% assign composition = compositionResource.resource %}
 
-
-<div class="cud">
+<div class="mid">
   <h2>{{composition.title}}</h2>
   <br/>
   {% if composition.type.coding[0].display %}
@@ -22,7 +21,7 @@
 
 
   <div class="collapse" id="collapse{{ uniqueId }}">
-  <div class="card card-body cud">
+  <div class="card card-body mid">
    {{ sec2.text.div }}
   </div>
 </div>

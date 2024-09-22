@@ -21,10 +21,34 @@
 
 <body>
 
-  <div id="result" class="container cud"></div>
+<div class="container mt-5">
+
+  <!-- First Dropdown -->
+  <div class="dropdown d-inline-block">
+    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Stylesheet
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      <a class="dropdown-item"  onclick="navigateToPage('stylesheet','epi.liquid')">epi Liguid template</a>
+      <a class="dropdown-item"  onclick="navigateToPage('stylesheet','epi2.liquid')">epi 2 Liguid template</a>
+    </div>
+  </div>
+
+  <!-- Second Dropdown -->
+  <div class="dropdown d-inline-block ml-3">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Language
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+      <a class="dropdown-item"  onclick="navigateToPage('language','en')">English</a>
+      <a class="dropdown-item"  onclick="navigateToPage('language','pt')"">Portuguese</a>
+      <a class="dropdown-item"  onclick="navigateToPage('language','da')">Danish</a>
+    </div>
+  </div>
+</div>
+
+  <div id="result" class="container"></div>
   <p id="preamble">v0.1.4</p>
-
-
 
   <script type="text/javascript">
     url = window.location.search.split('url=')[1];
@@ -38,11 +62,9 @@
     var templateQuery = "";
     var templateFile = "";
 
-
-    resourceType = "Bundle";
     templateFile = 'epi.liquid';
+    resourceType = "Bundle";
     templateQuery = "&_revinclude=RegulatedAuthorization:subject&_include:iterate=RegulatedAuthorization:holder&_revinclude:iterate=Ingredient:for&_revinclude=PackagedProductDefinition:package-for&_include:iterate=PackagedProductDefinition:manufactured-item&_revinclude=AdministrableProductDefinition:form-of&_revinclude:iterate=Ingredient:for&_include:iterate=Ingredient:for"
-
 
     const urlParams = new URLSearchParams(window.location.search);
 
@@ -50,10 +72,19 @@
     const mpid = urlParams.get('mpid');
     const lang = urlParams.get('language');
     const baseurl = urlParams.get('baseurl');
+    const stylesheet = urlParams.get("stylesheet")
+
+    console.log(stylesheet);
 
     console.log(mpid);
     console.log(lang);
     console.log(baseurl);
+    if (stylesheet === null || stylesheet === undefined) {
+  templateFile = 'epi.liquid';
+}else{
+  templateFile = stylesheet;
+}
+
 
     const result = document.querySelector('#result')
     const engine = new liquidjs.Liquid()
@@ -79,7 +110,38 @@
 });
 
   </script>
+<script>
+  // Function to extract query parameters from the current URL
+  function getQueryParams() {
+    const params = {};
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
 
+    urlParams.forEach((value, key) => {
+      params[key] = value;
+    });
+
+    return params;
+  }
+
+  // Function to redirect to a new page with the given argument and current query params
+  function navigateToPage(argument,value) {
+    // Get current query parameters
+    const params = getQueryParams();
+
+    // Construct a new URL based on the current page and additional argument
+    let newUrl = window.location.origin + window.location.pathname;
+
+    // Add the argument to the query string
+    params[argument] = value;
+
+    // Rebuild the query string with the updated parameters
+    const queryString = new URLSearchParams(params).toString();
+
+    // Redirect to the new URL with the updated query string
+    window.location.href = newUrl + '?' + queryString;
+  }
+</script>
 </body>
 
 </html>
