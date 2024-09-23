@@ -15,48 +15,54 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
 </head>
 
 <body>
 
-<div class="container mt-5">
+  <div class="container mt-2">
 
-  <!-- First Dropdown -->
-  <div class="dropdown d-inline-block">
-    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Stylesheet
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      <a class="dropdown-item"  onclick="navigateToPage('stylesheet','epi.liquid')">epi Liguid template</a>
-      <a class="dropdown-item"  onclick="navigateToPage('stylesheet','epi2.liquid')">epi 2 Liguid template</a>
+    <!-- First Dropdown -->
+    <div class="dropdown d-inline-block">
+      <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        Stylesheet
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <a class="dropdown-item" onclick="navigateToPage('stylesheet','epi.liquid')">epi Liguid template</a>
+        <a class="dropdown-item" onclick="navigateToPage('stylesheet','epi2.liquid')">epi 2 Liquid template</a>
+        <a class="dropdown-item" onclick="navigateToPage('stylesheet','gh.liquid')">GH Liquid template</a>
+
+      </div>
+    </div>
+
+    <!-- Second Dropdown -->
+    <div class="dropdown d-inline-block ml-3">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        Language
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+        <a class="dropdown-item" onclick="navigateToPage('language','en')">English</a>
+        <a class="dropdown-item" onclick="navigateToPage('language','pt')">Portuguese</a>
+        <a class="dropdown-item" onclick="navigateToPage('language','da')">Danish</a>
+      </div>
     </div>
   </div>
 
-  <!-- Second Dropdown -->
-  <div class="dropdown d-inline-block ml-3">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Language
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-      <a class="dropdown-item"  onclick="navigateToPage('language','en')">English</a>
-      <a class="dropdown-item"  onclick="navigateToPage('language','pt')"">Portuguese</a>
-      <a class="dropdown-item"  onclick="navigateToPage('language','da')">Danish</a>
-    </div>
-  </div>
-</div>
-
+  <br/>
   <div id="result" class="container"></div>
-  <p id="preamble">v0.1.4</p>
 
   <script type="text/javascript">
     url = window.location.search.split('url=')[1];
     //      document.getElementById("preamble").innerHTML = url;
 
-  </script>
 
-  <script type="text/javascript">
     var templatedata = {}
     var resourceType = "";
     var templateQuery = "";
@@ -80,10 +86,10 @@
     console.log(lang);
     console.log(baseurl);
     if (stylesheet === null || stylesheet === undefined) {
-  templateFile = 'epi.liquid';
-}else{
-  templateFile = stylesheet;
-}
+      templateFile = 'epi.liquid';
+    } else {
+      templateFile = stylesheet;
+    }
 
 
     const result = document.querySelector('#result')
@@ -96,54 +102,52 @@
         //console.log("myurl",url)
         console.log("JSON data being sent to template:", json);
 
-   // Parse and render the Liquid template using the JSON data
-   engine.parseAndRender(ltemplate, { json: json })
-      .then(html => {
-        result.innerHTML = html;
-      })
-      .catch(err => {
-        console.error("Error during Liquid template rendering:", err);
+        // Parse and render the Liquid template using the JSON data
+        engine.parseAndRender(ltemplate, { json: json })
+          .then(html => {
+            result.innerHTML = html;
+          })
+          .catch(err => {
+            console.error("Error during Liquid template rendering:", err);
+          });
+      }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.error("Error fetching JSON data:", textStatus, errorThrown);
       });
-  }).fail(function(jqXHR, textStatus, errorThrown) {
-    console.error("Error fetching JSON data:", textStatus, errorThrown);
-  });
-});
-
-  </script>
-<script>
-  // Function to extract query parameters from the current URL
-  function getQueryParams() {
-    const params = {};
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-
-    urlParams.forEach((value, key) => {
-      params[key] = value;
     });
 
-    return params;
-  }
+  </script>
+  <script>
+    // Function to extract query parameters from the current URL
+    function getQueryParams() {
+      const params = {};
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
 
-  // Function to redirect to a new page with the given argument and current query params
-  function navigateToPage(argument,value) {
-    // Get current query parameters
-    const params = getQueryParams();
+      urlParams.forEach((value, key) => {
+        params[key] = value;
+      });
 
-    // Construct a new URL based on the current page and additional argument
-    let newUrl = window.location.origin + window.location.pathname;
+      return params;
+    }
 
-    // Add the argument to the query string
-    params[argument] = value;
+    // Function to redirect to a new page with the given argument and current query params
+    function navigateToPage(argument, value) {
+      // Get current query parameters
+      const params = getQueryParams();
 
-    // Rebuild the query string with the updated parameters
-    const queryString = new URLSearchParams(params).toString();
+      // Construct a new URL based on the current page and additional argument
+      let newUrl = window.location.origin + window.location.pathname;
 
-    // Redirect to the new URL with the updated query string
-    window.location.href = newUrl + '?' + queryString;
-  }
-</script>
+      // Add the argument to the query string
+      params[argument] = value;
+
+      // Rebuild the query string with the updated parameters
+      const queryString = new URLSearchParams(params).toString();
+
+      // Redirect to the new URL with the updated query string
+      window.location.href = newUrl + '?' + queryString;
+    }
+  </script>
 </body>
 
 </html>
-
-
