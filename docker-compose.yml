@@ -1,9 +1,6 @@
-version: "3.9"
-
 services:
   fhir-server:
     image: hapiproject/hapi:latest
-#    restart: unless-stopped
     restart: always
     logging:
       driver: "json-file"
@@ -12,13 +9,10 @@ services:
     container_name: gh-repo
     ports:
       - 8787:8080
-   # volumes:
-   #  - ./conf:/data/hapi
     environment:
      SPRING_CONFIG_LOCATION: 'file:///data/hapi/application.yml'
     volumes:
       - ./conf:/data/hapi
-#      - ./default:/static
       - ./web:/custom
       - ./apps:/apps
     depends_on:
@@ -26,8 +20,6 @@ services:
 
   db:
     image: postgres:latest
-#    image: postgres:13-alpine
-
     restart: always
     container_name: db_gh
       #command: mydbcharacter-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci  --lower_case_table_names=1
@@ -39,5 +31,3 @@ services:
       - POSTGRES_ROOT_PASSWORD=admin
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
- #   ports:
- #   - "5432:5432"
