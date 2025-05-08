@@ -44,8 +44,9 @@ services:
     environment:
       - TGZ_FILE_URL=http://build.fhir.org/ig/hl7-eu/gravitate-health/package.tgz
       - SERVER_URL=https://sandbox.hl7europe.eu/gravitate-health/fhir
+      - WAITTIME=120
     volumes:
-      - ./fhir-outputs-1:/outputs
+      - ./fhir-outputs:/output
 #    depends_on:
 #      fhir-server:
 #        condition: service_healthy

@@ -272,7 +272,8 @@ async function processData(data, baseurl) {
       try {
         current_row.push(resource.name[0].usage[0].country.coding[0].display);
       } catch (error) {
-        current_row.push(error);
+        current_row.push("N/A");
+        console.log(error);
       }
 
       try {
