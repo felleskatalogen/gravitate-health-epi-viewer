@@ -15,6 +15,13 @@ services:
       - ./conf:/data/hapi
       - ./web:/custom
       - ./apps:/apps
+#    healthcheck:
+#      test: ["CMD-SHELL", "echo > /dev/tcp/localhost/8080"]
+#      interval: 10s
+#      timeout: 20s
+#      retries: 20
+#      start_period: 1m
+
     depends_on:
         - db
 
@@ -31,3 +38,26 @@ services:
       - POSTGRES_ROOT_PASSWORD=admin
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
+  
+  ember-gh:
+    image: jfcal/yafhiriguploader:latest
+    environment:
+      - TGZ_FILE_URL=http://build.fhir.org/ig/hl7-eu/gravitate-health/package.tgz
+      - SERVER_URL=https://sandbox.hl7europe.eu/gravitate-health/fhir
+    volumes:
+      - ./fhir-outputs-1:/outputs
+#    depends_on:
+#      fhir-server:
+#        condition: service_healthy
+
+        
+#  ember-epi:
+#    image: jfcal/yafhiriguploader:latest
+#    environment:
+#      - TGZ_FILE_URL=http://build.fhir.org/ig/HL7/emedicinal-product-info/package.tgz
+#      - SERVER_URL=https://sandbox.hl7europe.eu/gravitate-health/fhir
+#    volumes:
+#      - ./fhir-outputs-2:/outputs
+#    depends_on:
+#      fhir-server:
+#        condition: service_healthy
