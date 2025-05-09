@@ -46,7 +46,7 @@ services:
       - SERVER_URL=https://sandbox.hl7europe.eu/gravitate-health/fhir
       - WAITTIME=120
     volumes:
-      - ./fhir-outputs:/output
+      - ./fhir-outputs:/app/output
 #    depends_on:
 #      fhir-server:
 #        condition: service_healthy
