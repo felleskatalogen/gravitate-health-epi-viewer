@@ -8,9 +8,10 @@ services:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
     container_name: gh-repo
     ports:
-      - 8787:8080
+      - "${FHIR_SERVER_PORT:-8787}:8080"
     environment:
-     SPRING_CONFIG_LOCATION: 'file:///data/hapi/application.yml'
+      - SPRING_CONFIG_LOCATION=file:///data/hapi/application.yml
+      - FHIR_SERVER_PORT=${FHIR_SERVER_PORT:-8787}
     volumes:
       - ./conf:/data/hapi
       - ./web:/custom
@@ -39,14 +40,14 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
   
-  ember-gh:
-    image: jfcal/yafhiriguploader:latest
-    environment:
-      - TGZ_FILE_URL=http://build.fhir.org/ig/hl7-eu/gravitate-health/package.tgz
-      - SERVER_URL=https://sandbox.hl7europe.eu/gravitate-health/fhir
-      - WAITTIME=120
-    volumes:
-      - ./fhir-outputs:/app/output
+#  ember-gh:
+#    image: jfcal/yafhiriguploader:latest
+#    environment:
+#      - TGZ_FILE_URL=http://build.fhir.org/ig/hl7-eu/gravitate-health/package.tgz
+#      - SERVER_URL=https://sandbox.hl7europe.eu/gravitate-health/fhir
+#      - WAITTIME=120
+#    volumes:
+#      - ./fhir-outputs:/app/output
 #    depends_on:
 #      fhir-server:
 #        condition: service_healthy

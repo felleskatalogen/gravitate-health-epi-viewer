@@ -41,6 +41,7 @@ hapi:
     openapi_enabled: true
     fhir_version: R5
     server_address: https://sandbox.hl7europe.eu/gravitate-health/fhir
+    # server_address: http://localhost:${FHIR_SERVER_PORT:8787}/fhir
     allowed_bundle_types: COLLECTION,DOCUMENT,MESSAGE,TRANSACTION,TRANSACTIONRESPONSE,BATCH,BATCHRESPONSE,HISTORY,SEARCHSET
     allow_cascading_deletes: true
     allow_contains_searches: true
@@ -93,6 +94,7 @@ hapi:
       home:
         name: Local Tester
 #        server_address: "http://localhost/fhir"
+#         server_address: "http://localhost:${FHIR_SERVER_PORT:8787}/fhir"
         server_address: https://sandbox.hl7europe.eu/gravitate-health/fhir
         refuse_to_fetch_third_party_urls: false
         fhir_version: R5
